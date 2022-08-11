@@ -52,6 +52,8 @@
     function wordChecker($char, $word){
       $num = 0;
       if(strlen($word) > 0){
+        $word = strtolower($word); // lowercase
+        // $word = strtoupper($word); // uppercase
         for($i = 0; $i < strlen($word); $i++){
           if($char == $word[$i]){
             $num++;
