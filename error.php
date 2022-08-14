@@ -58,9 +58,7 @@
                 }
                 echo "Max is".$max;
                 echo "Min is".$min;
-
             }
-            
         }
 
         switch ($_SERVER["REQUEST_METHOD"]) {
@@ -69,11 +67,11 @@
                 $lname = $_POST['lname'];
                 $marks = explode("," , $_POST['marks']);
                 $select = $_POST['select'];
-            break;
+              break;
 
             case "GET":
                 echo "<h1>WELCOM</h1>";
-            break;
+              break;
         }
 
         $taka = new students($fname,$lname,$marks,$select);
