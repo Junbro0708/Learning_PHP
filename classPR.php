@@ -36,59 +36,73 @@
       }
 
       function average(){
-        $sum = 0;
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+          $sum = 0;
 
-        foreach($this -> marks as $value){
-          $sum += $value;
+          foreach($this -> marks as $value){
+            $sum += $value;
+          }
+  
+          if(count($this -> marks) != 0){
+            echo "<h2>Average mark is ".($sum / count($this -> marks))."</h2>";
+          }
         }
-
-        echo "<h2>Average mark is ".($sum / count($this -> marks))."</h2>";
       }
 
       function finderMAXMIN(){
-        $max = 0;
-        $min = 999;
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+          $max = 0;
+          $min = 999;
 
-        foreach($this -> marks as $value){
-          if($value > $max){
-            $max = $value;
+          foreach($this -> marks as $value){
+            if($value > $max){
+              $max = $value;
+            }
+            if($value < $min){
+              $min = $value;
+            }
           }
-          if($value < $min){
-            $min = $value;
-          }
+
+          echo "<h2>Max mark is $max Min mark is $min</h2>";
         }
-
-        echo "<h2>Max mark is $max Min mark is $min</h2>";
       }
 
       function getter(){
-        echo "<h2>".$this->fname." ".$this->lname."</h2>";
-        echo "<h2>";
-        foreach($this -> marks as $value){
-          echo $value." ";
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+          echo "<h2>".$this->fname." ".$this->lname."</h2>";
+          echo "<h2>";
+          foreach($this -> marks as $value){
+            echo $value." ";
+          }
+          echo "</h2>";
+          echo "<h2>".$this->program."</h2>";
         }
-        echo "</h2>";
-        echo "<h2>".$this->program."</h2>";
       }
     }
 
-  switch($_SERVER['REQUEST_METHOD']){
-    case "POST":
-      $fname = $_POST['fname'];
-      $lname = $_POST['lname'];
-      $marks = explode(",", $_POST['marks']);
-      $program = $_POST['program'];
-      break;
-    case "GET":
-      echo "<h1>WELCOME</h1>";
-  }
+    $fname = "";
+    $lname = "";
+    $marks = [];
+    $program = "";
 
-  $jun = new student($fname, $lname, $marks, $program);
-  
-  echo $jun->getter();
-  echo $jun->average();
-  echo $jun->finderMAXMIN();
+    switch($_SERVER['REQUEST_METHOD']){
+      case "POST":
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $marks = explode(",", $_POST['marks']);
+        $program = $_POST['program'];
+        break;
+      case "GET":
+        echo "<h1>WELCOME</h1>";
+        break;
+    }
 
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+      $jun = new student($fname, $lname, $marks, $program);
+      $jun->average();
+      $jun->finderMAXMIN();
+      $jun->getter();
+    }
   ?>
 </body>
 </html>
