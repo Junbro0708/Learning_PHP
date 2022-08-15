@@ -98,11 +98,12 @@
     }
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-      $jun = new student($fname, $lname, $marks, $program);
-      $jun->average();
-      $jun->finderMAXMIN();
-      $jun->getter();
+
     }
+    $jun = new student($fname, $lname, $marks, $program);
+    $jun->average();
+    $jun->finderMAXMIN();
+    $jun->getter();
   ?>
 </body>
 </html>

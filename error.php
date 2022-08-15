@@ -7,80 +7,102 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="<?php $_SERVER['PHP_SELF'];?>">
-        <input type="text" name="fname">
-        <input type="text" name="lname">
-        <input type="text" name="marks">
-        <select name="select">
-            <option>Turm1</option>
-            <option>Turm2</option>
-            <option>Turm3</option>
-            <option>Turm4</option>
-        </select>
+    <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
+        <input type="text" name="fname" placeholder="What is your first name?">
+        <input type="text" name="lname" placeholder="What is your last name?"></br>
+        <input type="text" name="marks" placeholder="Marks">
+        <select name="selects">
+            <option disabled selected value="">Select your program</option>
+            <option>Web Deperopment</option>
+            <option>UI/UX</option>
+            <option>Desital Marketing</option>
+            <option>IBM</option>
+        </select><br>
         <button type="submit">Submit</button>
     </form>
+
     <?php
+        class students {
+            private $fname;
+            private $lname;
+            private $marks;
+            private $selects;
 
-        class students{
-            public $fname;
-            public $lname;
-            public $marks;
-            public $select;
-
-            function __construct($fname,$lname,$marks,$select) {
-                $this->fname = $fname;
-                $this->lname = $lname;
-                $this->marks = $marks;
-                $this->select = $select;
+            function __construct($fname, $lname, $marks, $selects)
+            {
+                $this -> fname = $fname;
+                $this -> lname = $lname;
+                $this -> marks = $marks;
+                $this -> selects = $selects;
             }
 
-            function avg() {
+            function avg(){
                 $sum = 0;
                 $avg = 0;
-                foreach ($this->marks as $value) {
-                    $sum = ($sum + $value);
+
+                foreach ($this -> marks as $mark){
+                    $sum += $mark;
                 }
-                $avg = $sum / 4;
-                echo "<br>".$avg;
+                
+                if (count($this -> marks) != 0) {
+                    $avg = $sum / count($this -> marks);
+
+                    return ($avg . 2);
+                }
             }
 
             function maxmin() {
                 $max = 0;
                 $min = 100;
-                foreach ($this->marks as $value) {    
-                    if($max <= $value) {
+
+                foreach($this -> marks as $value) {
+                    if ($max <= $value) {
                         $max = $value;
                     }
-    
-                    if ($min >= $value) {
+                    if($min >= $value) {
                         $min = $value;
-                    }
+                    } 
+                  }
+                return [$max, $min];
+            }
+
+            function details() {
+                echo $this -> fname , $this -> lname;
+                foreach ($this -> marks as $value) {
+                    echo $value;
                 }
-                echo "Max is".$max;
-                echo "Min is".$min;
+                echo $this -> selects;
             }
         }
 
-        switch ($_SERVER["REQUEST_METHOD"]) {
+        $fname = "";
+        $lname = "";
+        $marks = [];
+        $selects = "";
+
+        switch ($_SERVER['REQUEST_METHOD']){
             case "POST":
                 $fname = $_POST['fname'];
                 $lname = $_POST['lname'];
                 $marks = explode("," , $_POST['marks']);
-                $select = $_POST['select'];
-              break;
+                $selects = $_POST['selects'];
+            break;
 
             case "GET":
-                echo "<h1>WELCOM</h1>";
-              break;
+                echo "<h1> WELCOME!! </h1>";
+            break;
         }
 
-        $taka = new students($fname,$lname,$marks,$select);
-        echo $taka->avg();
-        echo $taka->maxmin();
 
-        
-        // $Taka = new students("Takahiro","Ota","")
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $Taka = new students($fname,$lname,$marks,$selects);
+    
+            echo round(($Taka->avg()), 2)."</br>";
+            echo round(($Taka->maxmin())[0], 3)."</br>";
+            echo round(($Taka->maxmin())[1], 2)."</br>";
+            echo $Taka->details();
 
+        }
     ?>
 </body>
 </html>
