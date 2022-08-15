@@ -9,7 +9,7 @@
 <body>
   <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
     <input type="text" name="fname" placeholder="First Name"><br>
-    <input type="text" name="lname" placeholder="First Name"><br>
+    <input type="text" name="lname" placeholder="Last Name"><br>
     <input type="text" name="marks" placeholder="Put your four marks using ,"><br>
     <select name="program">
       <option disabled selected value="">Select your program</option>
@@ -98,12 +98,11 @@
     }
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+      $jun = new student($fname, $lname, $marks, $program);
+      $jun->average();
+      $jun->finderMAXMIN();
+      $jun->getter();
     }
-    $jun = new student($fname, $lname, $marks, $program);
-    $jun->average();
-    $jun->finderMAXMIN();
-    $jun->getter();
   ?>
 </body>
 </html>

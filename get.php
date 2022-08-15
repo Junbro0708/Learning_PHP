@@ -14,7 +14,7 @@
   </form>
 
   <?php
-    if(isset($_GET['fname'])){
+    if(!empty($_GET['fname']) && !empty($_GET['lname'])){
       $fname = $_GET['fname'];
       $lname = $_GET['lname'];
       echo "Your name is: $fname $lname";
