@@ -26,6 +26,18 @@
         $this -> $lname = $lname;
         $this -> $desire = $desire;
       }
+
+      public function getFname()
+      {
+            return $this->fname;
+      }
+
+      public function setFname($fname)
+      {
+            $this->fname = $fname;
+
+            return $this;
+      }
     }
 
     function writeDesire($fname, $lname, $desire, $fileAddr){

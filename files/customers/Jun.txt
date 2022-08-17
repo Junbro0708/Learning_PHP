@@ -1,0 +1,7 @@
+product:tomate
+price:4
+quantity:15
+total:60product:Tomato
+price:32
+quantity:1
+total:32
