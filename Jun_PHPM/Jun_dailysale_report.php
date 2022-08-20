@@ -36,7 +36,7 @@
       column-gap: 3%;
     }
   </style>
-</head>
+</head> 
 <body>
   <?php
     //setting path
