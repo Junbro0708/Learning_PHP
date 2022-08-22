@@ -44,9 +44,6 @@
     </form> -->
     <?php
         function loadData($employeeData){
-            $sum = 0;
-            $max = 0;
-            $min = 100;
             echo "<table><thead><tr><th>ID</th><th>FirstName</th><th>LastName</th><th>Department</th><th>Salary</th><th>Email</th><th>PhoneNumber</th><th>Address</th><th>Edit</th><th>Delete</th></tr></thead>";
             foreach($employeeData as $idx=>$employee){
                 echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td><td><a href='./editUser.php?idx=$idx'>Edit</a></td><td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
