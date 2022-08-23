@@ -36,17 +36,25 @@
     </style>
 </head>
 <body>
-    <!-- <form method="POST" action="">
-        <input type="text" name="fname" placeholder="write firstname"/>
-        <input type="text" name="lname" placeholder="write lastname"/>
-        <input type="text" name="score" placeholder="write the score"/>
-        <button type="submit">Add/Save</button>
-    </form> -->
     <?php
+        include './makeSelect.php';
         function loadData($employeeData){
-            echo "<table><thead><tr><th>ID</th><th>FirstName</th><th>LastName</th><th>Department</th><th>Salary</th><th>Email</th><th>PhoneNumber</th><th>Address</th><th>Edit</th><th>Delete</th></tr></thead>";
+            echo "<table><thead><tr><th>ID</th><th>FirstName</th><th>LastName</th><th><form method='GET' action=".$_SERVER['PHP_SELF'].">";
+            makeSelect($employeeData, "");
+            echo "<button type='submit'>V</button></form></th><th>Salary</th><th>Email</th><th>PhoneNumber</th><th>Address</th><th>Edit</th><th>Delete</th></tr></thead>";
             foreach($employeeData as $idx=>$employee){
                 echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td><td><a href='./editUser.php?idx=$idx'>Edit</a></td><td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
+            }
+            echo "</table>";
+        }
+        function loadSelectData($employeeData, $keyword){
+            echo "<table><thead><tr><th>ID</th><th>FirstName</th><th>LastName</th><th><form method='GET' action=".$_SERVER['PHP_SELF'].">";
+            makeSelect($employeeData, "");
+            echo "<button type='submit'>V</button></form></th><th>Salary</th><th>Email</th><th>PhoneNumber</th><th>Address</th><th>Edit</th><th>Delete</th></tr></thead>";
+            foreach($employeeData as $idx=>$employee){
+              if($employee->Department == $keyword){
+                echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td><td><a href='./editUser.php?idx=$idx'>Edit</a></td><td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
+              }
             }
             echo "</table>";
         }
@@ -55,7 +63,12 @@
         fclose($fileHandler);
         $emloyeeData = json_decode($data);
         if($_SERVER['REQUEST_METHOD']=="GET"){
-          loadData($emloyeeData);
+          if(!isset($_GET['depart'])){
+            loadData($emloyeeData);
+          }else{
+            $keyword = $_GET['depart'];
+            loadSelectData($emloyeeData, $keyword);
+          }
         }
     ?>
 </body>

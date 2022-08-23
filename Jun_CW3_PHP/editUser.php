@@ -8,24 +8,7 @@
 </head>
 <body>
     <?php
-      function makeSelect($files, $depart){
-        $departs = [];
-        foreach($files as $value){
-          array_push($departs, $value->Department);
-        }
 
-        $departs = array_unique($departs);
-
-        echo "<select name='depart'>";
-        foreach($departs as $value){
-          if($value != $depart){
-            echo "<option value='$value'>$value</option>";
-          }else{
-            echo "<option value='$value' selected>$value</option>";
-          }
-        }
-        echo "</select>";
-      }
       
       if($_SERVER['REQUEST_METHOD']=="POST"){
           $id = $_POST['id'];
@@ -65,6 +48,7 @@
           echo "<input name='id' value='".$emloyeeData[$idx]->EmployeeID."'/>";
           echo "<input name='fname' value='".$emloyeeData[$idx]->first_name."'/>";
           echo "<input name='lname' value='".$emloyeeData[$idx]->last_name."'/>";
+          include './makeSelect.php';
           makeSelect($emloyeeData, $emloyeeData[$idx]->Department);
           echo "<input name='salary' value='".$emloyeeData[$idx]->Salary."'/>";
           echo "<input name='email' value='".$emloyeeData[$idx]->email."'/>";
