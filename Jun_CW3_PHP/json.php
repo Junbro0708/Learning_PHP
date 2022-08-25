@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +46,11 @@
             makeSelect($employeeData, "");
             echo "<button type='submit'>V</button></form></th><th>Salary</th><th>Email</th><th>PhoneNumber</th><th>Address</th><th>Edit</th><th>Delete</th></tr></thead>";
             foreach($employeeData as $idx=>$employee){
-                echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td><td><a href='./editUser.php?idx=$idx'>Edit</a></td><td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
+                echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td>";
+                echo "<td><form method='POST' action='".$_SERVER['PHP_SELF']."'>";
+                echo "<button type='submit' name='idx' value='$idx'>edit</button></form></td>";
+                echo "<td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
+
             }
             echo "</table>";
         }
@@ -53,7 +60,10 @@
             echo "<button type='submit'>V</button></form></th><th>Salary</th><th>Email</th><th>PhoneNumber</th><th>Address</th><th>Edit</th><th>Delete</th></tr></thead>";
             foreach($employeeData as $idx=>$employee){
               if($employee->Department == $keyword){
-                echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td><td><a href='./editUser.php?idx=$idx'>Edit</a></td><td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
+                echo "<tr><td>$employee->EmployeeID</td><td>$employee->first_name</td><td>$employee->last_name</td><td>$employee->Department</td><td>$employee->Salary</td><td>$employee->email</td><td>$employee->Phone</td><td>$employee->Address</td>";
+                echo "<td><form method='POST' action='".$_SERVER['PHP_SELF']."'>";
+                echo "<button type='submit' name='idx' value='$idx'>edit</button></form></td>";
+                echo "<td><a href='./deleteUser.php?idx=$idx'>Delete</a></td></tr>";
               }
             }
             echo "</table>";
@@ -63,11 +73,19 @@
         fclose($fileHandler);
         $emloyeeData = json_decode($data);
         if($_SERVER['REQUEST_METHOD']=="GET"){
-          if(!isset($_GET['depart'])){
+          if(!isset($_GET['depart']) || $_GET['depart'] == ""){
             loadData($emloyeeData);
           }else{
             $keyword = $_GET['depart'];
             loadSelectData($emloyeeData, $keyword);
+          }
+        }
+
+        if($_SERVER['REQUEST_METHOD']=="POST"){
+          if(isset($_POST['idx'])){
+            $_SESSION['idx'] = $_POST['idx'];
+            $_SESSION['timeout'] = time() + 5;
+            header("Location:http://localhost/php/Jun_CW3_PHP/editUser.php");
           }
         }
     ?>

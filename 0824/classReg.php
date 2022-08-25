@@ -25,13 +25,39 @@
 <body>
   <form method="POST" action="<?php $_SERVER['PHP_SELF'];?>">
     <input type="text" name="className" required/>
-    <select>
+    <select name="selectCourse">
       <?php
-        foreach($coursesArray as $course){
-          echo "<option value='".$course['course_id']."'>".$course['coursename']."</option>";
+        foreach($coursesArray as $index => $course){
+          echo "<option value='".$index."'>".$course['coursename']."</option>";
         }
       ?>
     </select>
+    <input type="date" name="startDate"/>
+    <button type="submit">Register</button>
   </form>
+  <?php
+    if($_SERVER['REQUEST_METHOD'] == "POST"){
+      $classname = $_POST['className'];
+      $courseIndex = $_POST['selectCourse'];
+      $startDate = $_POST['startDate'];
+      $lenght = $coursesArray[$courseIndex]['length'];
+      $days = 86400 * ($lenght * 4 / 7);
+      $endDate = date("Y-m-d", strtotime($startDate)+$days);
+      
+      $dbCon = new mysqli($dbServername, $dbUsername, $dbPass, $dbName);
+      if($dbCon->connect_error){
+        die("Connection error");
+      }else{
+        $insertCmd = "INSERT INTO class_tb (start_date, end_date, class_name, course_id) VALUE ('$startDate', '$endDate', '$classname', '".$coursesArray[$courseIndex]['course_id']."')";
+
+        if($dbCon->query($insertCmd)){
+          echo "<h1>Class added</h1>";
+        }else{
+          echo "<h1>query problem</h1>".$dbCon->error;
+        }
+        $dbCon->close();
+      }
+    }
+  ?>
 </body>
 </html>

@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if($_SESSION['timeout'] < time()){
+        session_unset();
+        session_destroy();
+        header("Location:http://localhost/php/Jun_CW3_PHP/json.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +16,6 @@
 </head>
 <body>
     <?php
-
-      
       if($_SERVER['REQUEST_METHOD']=="POST"){
           $id = $_POST['id'];
           $fname = $_POST['fname'];
@@ -36,11 +42,13 @@
           $stringData = json_encode($emloyeeData);
           fwrite($filehandler,$stringData);
           fclose($filehandler);
+          session_unset();
+          session_destroy();
           header("Location: http://localhost/PHP/Jun_CW3_PHP/json.php");
       }
 
-      if(isset($_GET['idx'])){
-          $idx = $_GET['idx'];
+      if(isset($_SESSION['idx'])){
+          $idx = $_SESSION['idx'];
           $filehandler = fopen('./employeeData.json','r');
           $emloyeeData = json_decode(fread($filehandler,filesize('./employeeData.json')));
           fclose($filehandler);
