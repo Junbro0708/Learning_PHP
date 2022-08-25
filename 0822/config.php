@@ -1,6 +1,6 @@
 <?php
-    $dbUsername = "root";
     $dbServername = "localhost";
+    $dbUsername = "root";
     $dbPass = "";
     $dbName = "students_db";
     
