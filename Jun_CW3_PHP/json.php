@@ -84,7 +84,7 @@
         if($_SERVER['REQUEST_METHOD']=="POST"){
           if(isset($_POST['idx'])){
             $_SESSION['idx'] = $_POST['idx'];
-            $_SESSION['timeout'] = time() + 5;
+            $_SESSION['timeout'] = time() + 60;
             header("Location:http://localhost/php/Jun_CW3_PHP/editUser.php");
           }
         }

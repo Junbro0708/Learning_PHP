@@ -28,7 +28,8 @@
       if($dbCon->connect_error){
         die("Connection error ".$dbCon->connect_error);
       }else{
-        $insertCmd = "INSERT INTO user_tb (firstName, lastName, email, pass, dob, phone, addr, salt) VALUES ('".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["email"]."','".$_POST["pass"]."','".$_POST["dob"]."','".$_POST["phone"]."','".$_POST["addr"]."','salt')";
+        $pass = password_hash($_POST['pass'], PASSWORD_BCRYPT, ['cost'=>9]);
+        $insertCmd = "INSERT INTO user_tb (firstName, lastName, email, pass, dob, phone, addr, salt, title) VALUES ('".$_POST["fname"]."','".$_POST["lname"]."','".$_POST["email"]."','".$pass."','".$_POST["dob"]."','".$_POST["phone"]."','".$_POST["addr"]."','salt', 'student')";
         $result = $dbCon->query($insertCmd);
         if($result === true){
           echo "<h1>Done</h1>";

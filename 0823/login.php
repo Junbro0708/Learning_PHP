@@ -25,15 +25,20 @@
       if($dbCon->connect_error){
         die("Connection error ".$dbCon->connect_error);
       }else{
-        $selectCmd = "SELECT * FROM `user_tb` WHERE email='$username' AND pass='$pass';";
+        $selectCmd = "SELECT * FROM `user_tb` WHERE email='$username';";
         $result = $dbCon->query($selectCmd);
         
         if($result->num_rows > 0){
           $user = $result->fetch_assoc();
-          $_SESSION['user'] = $user;
-          $_SESSION['session_timeout'] = time() + 10;
-          $dbCon->close();
-          header("Location:http://localhost/php/0823/welcome.php");          
+          $hashedPass = $user['pass'];
+          if(password_verify($pass, $hashedPass)){
+            $_SESSION['user'] = $user;
+            $_SESSION['session_timeout'] = time() + 10;
+            $dbCon->close();
+            header("Location:http://localhost/php/0823/welcome.php");
+          }else{
+            echo "User not vaild";
+          }
         }else{
           echo "User not vaild";
         }
