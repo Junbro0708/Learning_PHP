@@ -1,5 +1,7 @@
 <?php
-  if(isset($_SESSION['loggedUser']))
+  if(isset($_SESSION['loggedUser'])){
+    header("Location: ".parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST)."/home");
+  }
 ?>
 
 <form method="POST" action="<?php echo $reqURL?>">
@@ -23,9 +25,9 @@
       if($user !== false){
         echo $user['pass'];
         if(password_verify($pass, $user['pass'])){
-          $_SESSION['loggedUser'] = $user;
-          header("Location: ".parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST)."/home");
-          echo "login";
+          $userObj = new user($user);
+          $_SESSION['loggedUser'] = serialize($userObj);
+          $_SESSION['timeout'] = time() + 40;
         }else{
           echo "<h1>Wrong username / password</h1>";
         }

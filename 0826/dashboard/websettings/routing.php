@@ -7,10 +7,16 @@
     }
   }
   $reqURL = strtolower(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-  if($reqURL=="/" || $reqURL==""){
-    $page = "home";
+  if(isset($_SESSION['loggedUser'])){
+    if($_SESSION['timeout'] > time()){
+      if($reqURL=="/" || $reqURL==""){
+        $page = "home";
+      }else{
+        $page = basename($reqURL);
+      }
+    }
   }else{
-    $page = basename($reqURL);
+    $page = "login";
   }
   foreach($pageArray as $pageName){
     if($pageName == $page){
